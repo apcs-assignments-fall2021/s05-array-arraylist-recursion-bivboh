@@ -22,8 +22,7 @@ public class MyMain {
         // Recursive call
         else if (arr[i] > max) {
             return maxArrayTR(arr, i + 1, arr[i]);
-        }
-        else {
+        } else {
             return maxArrayTR(arr, i + 1, max);
         }
     }
@@ -46,13 +45,18 @@ public class MyMain {
 
     // Wrapper Method (Provided for you):
     public static int sum(int[] arr) {
-        return sumTR(arr,0, 0);
+        return sumTR(arr, 0, 0);
     }
 
     // Tail Recursive Method:
     public static int sumTR(int[] arr, int i, int sum) {
-        // YOUR CODE HERE
-        return -1;
+        if (i == 0) {
+            return sumTR(arr, i + 1, arr[0]);
+        } else if (i == arr.length) {
+            return (sum);
+        } else {
+            return sumTR(arr, i + 1, sum += arr[i]);
+        }
     }
 
 
@@ -69,14 +73,18 @@ public class MyMain {
 
     // Wrapper Method (Provided for you):
     public static boolean search(ArrayList<Integer> list, int x) {
-        // YOUR CODE HERE
-        return false;
+        return searchTR(list, x, 0);
     }
 
     // Tail Recursive Method:
     public static boolean searchTR(ArrayList<Integer> list, int x, int i) {
-        // YOUR CODE HERE
-        return false;
+        if (i == list.size()) {
+            return false;
+        } else if (list.get(i) != x) {
+            return searchTR(list, x, i + 1);
+        } else {
+            return true;
+        }
     }
 
 
@@ -90,11 +98,22 @@ public class MyMain {
     // Wrapper Method (Provided for you):
     public static boolean allEven(int[] arr) {
         // YOUR CODE HERE
-        return false;
+        return allEvenTR(arr, 0);
     }
 
     // Tail Recursive Method:
     // You should write this yourself!
+    public static boolean allEvenTR(int[] arr, int i) {
+        if (i == arr.length) {
+            return true;
+        } else if (arr[i] % 2 > 0) {
+            return false;
+        } else if (arr[i] % 2 == 0) {
+            return allEvenTR(arr, i + 1);
+        } else {
+            return false;
+        }
+    }
 
 
     // ********************
@@ -102,7 +121,7 @@ public class MyMain {
     // ********************
     public static void floodFill(char[][] mat, int row, int col) {
         // Check out of bounds, return
-        if (row < 0 || col < 0 || row >= mat.length || col >= mat[0].length){
+        if (row < 0 || col < 0 || row >= mat.length || col >= mat[0].length) {
             return;
         }
         // If we're at wall, don't do anything
@@ -112,19 +131,17 @@ public class MyMain {
         // If we've already visited there, let's return early
         else if (mat[row][col] == '*') {
             return;
-        }
-        else {
+        } else {
             // Leave "breadcrumbs"
             mat[row][col] = '*';
 
             // Visit our neighbors (left, up, right, down)
-            floodFill(mat, row, col-1);
-            floodFill(mat, row-1, col);
-            floodFill(mat, row, col+1);
-            floodFill(mat, row+1, col);
+            floodFill(mat, row, col - 1);
+            floodFill(mat, row - 1, col);
+            floodFill(mat, row, col + 1);
+            floodFill(mat, row + 1, col);
         }
     }
-
 
 
     // ********************
@@ -136,11 +153,28 @@ public class MyMain {
 
     // Wrapper method
     public static boolean hasCountCopies(int[] arr, int x, int count) {
-        // YOUR CODE HERE
-        return false;
+        return hasCountCopiesTR(arr, x, count, 0, 0);
     }
 
     // You may want a tail recursive method
+    public static boolean hasCountCopiesTR(int[] arr, int x, int count, int temp, int i) {
+        if (i == arr.length) {
+            if (temp == count) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else if (arr[i] != x) {
+            return hasCountCopiesTR(arr, x, count, temp, i + 1);
+        }
+        else {
+            return hasCountCopiesTR(arr, x, count, temp + 1, i + 1);
+        }
+
+        }
+
 
 
     // This recursive method checks if the array is sorted in
@@ -148,8 +182,17 @@ public class MyMain {
 
     // Wrapper method
     public static boolean isSorted(ArrayList<Integer> list) {
-        // YOUR CODE HERE
-        return false;
+        return isSortedTR(list,1);
+    }
+
+    public static boolean isSortedTR(ArrayList<Integer> list, int i) {
+        if (i == list.size()) {
+            return true;
+        } else if (list.get(i) > list.get(i-1) || list.get(i) == list.get(i-1)) {
+            return isSortedTR(list, i + 1);
+        } else {
+            return false;
+        }
     }
 
     // You may want a tail recursive method
@@ -183,8 +226,19 @@ public class MyMain {
 
     // No tail recursion necessary!
     public static boolean escape(char[][] mat, int row, int col) {
-        // YOUR CODE HERE
-        return false;
+        if (mat[row][col] == 'w'){
+            return false;
+        }
+        else if (col > mat.length-1 || row > mat[0].length-1){
+            return false;
+        }
+        else if (mat[row][col] == 'f' || mat[row][col] == '*'){
+            return true;
+        }
+        else{
+            mat[row][col] = '*';
+            return escape(mat,row,col);
+        }
     }
 
 
